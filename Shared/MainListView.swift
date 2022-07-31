@@ -16,7 +16,11 @@ struct MainListView: View {
     var body: some View {
         NavigationView {
             List(store.list){ memo in
-                Memocell(memo : memo)
+                NavigationLink{
+                    DetailView(memo: memo)
+                } label: {
+                    Memocell(memo : memo)
+                }
                 
             }
             .listStyle(.plain)
