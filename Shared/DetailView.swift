@@ -12,6 +12,8 @@ struct DetailView: View {
     
     @EnvironmentObject private var store : MemoStore
     @State private var showComposer : Bool = false
+    @State private var showDeleteAlert : Bool  = false
+    @Environment(\.dismiss) var dismiss
     var body: some View {
         VStack {
             ScrollView{
@@ -31,6 +33,24 @@ struct DetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar{
             ToolbarItemGroup(placement: .bottomBar) {
+                Button {
+                    showDeleteAlert = true
+                } label: {
+                    Image(systemName: "trash")
+                }
+                .foregroundColor(.red)
+                .alert("삭제확인", isPresented: $showDeleteAlert) {
+                    Button(role: .destructive) {
+                        store.delete(memo: memo)
+                        dismiss()
+                    } label: {
+                        Text("delete")
+                    }
+
+                } message: {
+                    Text("Are you sure you want to delete the note?")
+                }
+
                 Button {
                     showComposer = true
                 } label: {
